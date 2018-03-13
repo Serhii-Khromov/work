@@ -1,0 +1,37 @@
+AppBundle\Entity\Rest:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\RestRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        width:
+            type: integer
+            column: width
+        height:
+            type: integer
+            column: height
+        created:
+            type: date
+            column: created
+    manyToOne:
+        ldf:
+            targetEntity: AppBundle\Entity\LDF
+            joinColumn:
+                name: ldf_id
+                referencedColumnName: id
+        hangar:
+            targetEntity: AppBundle\Entity\Hangar
+            joinColumn:
+                name: hangar_id
+                referencedColumnName: id
+        status:
+            targetEntity: AppBundle\Entity\Status
+            joinColumn:
+                name: status_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

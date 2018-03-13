@@ -1,0 +1,17 @@
+AppBundle\Entity\Hangar:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\HangarRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '80'
+            unique: true
+            column: name
+    lifecycleCallbacks: {  }

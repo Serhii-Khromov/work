@@ -1,0 +1,26 @@
+AppBundle\Entity\LDF:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\LDFRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        code:
+            type: integer
+            unique: true
+            column: code
+        bazisCode:
+            type: string
+            length: '8'
+            unique: true
+            column: bazis_code
+        name:
+            type: string
+            length: '80'
+            unique: true
+            column: name
+    lifecycleCallbacks: {  }

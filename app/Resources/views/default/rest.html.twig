@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include 'navbar.html.twig' %}
+    <form method="post" action="{{ path('rest') }}" id="formMain">
+        <div class="form-group">
+            <select name="hangar" id="hanger">
+                <option value="all">All</option>
+                {% for hangar in hangar_list %}
+                    <option value="{{ hangar.id }}">{{ hangar.name }}</option>
+                {% endfor %}
+            </select>
+            <select name="ldf" id="ldf">
+                <option value="all">All</option>
+                {% for ldf in ldf_list %}
+                    <option value="{{ ldf.id }}">{{ ldf.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit">
+        </div>
+    </form>
+    <table border="1">
+        {% for rest in rest_list %}
+
+            <tr>
+                <td>{{ rest.width }} x {{ rest.height }}</td>
+                <td>{{ rest.ldf.name }}</td>
+                <td>{{ rest.status.name }}</td>
+                <td>{{ rest.hangar.name }}</td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
