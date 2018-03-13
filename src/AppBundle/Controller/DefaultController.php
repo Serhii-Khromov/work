@@ -32,7 +32,7 @@ class DefaultController extends Controller
     public function ajaxRequest(Request $request)
     {
         if ($request->request->get('barcode')) {
-            var_dump($request->getContent());
+            //var_dump($request->getContent());
             $em = $this->getDoctrine()->getManager();
             $hangar = $em->getRepository(Hangar::class)->find($request->request->get('hangar'));
             $status = $em->getRepository(Status::class)->find(2);

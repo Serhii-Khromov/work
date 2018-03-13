@@ -36,9 +36,9 @@ class RestController extends Controller
             ->getRepository(Hangar::class)
             ->findAll();
         if ($request->getContent()) {
-            $ldf = $em->getRepository(LDF::class)->findBy(['id'=>$request->get('ldf')]);
-            $hangar = $em->getRepository(Hangar::class)->findBy(['id'=>$request->get('hangar')]);
-            $rest_list = $em->getRepository(Rest::class)->findBy(['ldf'=>$ldf, 'hangar'=>$hangar]);
+            $ldf = $request->get('ldf');
+            $hangar = $request->get('hangar');
+            $rest_list = $em->getRepository(Rest::class)->findByFilter($ldf,$hangar);
         }
         return $this->render('default/rest.html.twig', ['rest_list' => $rest_list, 'ldf_list' => $ldf_list, 'hangar_list'=>$hangar_list]);
     }
