@@ -20,14 +20,15 @@
     </form>
     <table border="1">
         {% for rest in rest_list %}
-
             <tr>
                 <td>{{ rest.width }} x {{ rest.height }}</td>
                 <td>{{ rest.ldf.name }}</td>
                 <td>{{ rest.status.name }}</td>
                 <td>{{ rest.hangar.name }}</td>
+                <td>
+                    <a href="#" onclick="getData({{ rest.id }},'{{ path('ajaxrequest') }}')">print</a>
+                </td>
             </tr>
-
         {% endfor %}
 
     </table>
@@ -35,5 +36,7 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
+    <script src="{{ asset('js/jquery-barcode.js') }}"></script>
+    <script src="{{ asset('js/printrest.js') }}"></script>
+    <script src="{{ asset('js/JsBarcode.all.min.js') }}"></script>
 {% endblock %}

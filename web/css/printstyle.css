@@ -1,0 +1,17 @@
+#print-content {
+    height: 5.8cm;
+    width: 5.8cm;
+    text-align: center;
+    margin: auto;
+}
+
+.num {
+    font-size: 40px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.row {
+    height: 70px;
+}
+

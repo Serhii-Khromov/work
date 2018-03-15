@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/printstyle.css') }}"/>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid" id="print-content">
+
+        <div class="row" id="size" >
+            <div class="num" id="width"></div><div class="num"> x </div> <div class="num" id="height"></div>
+        </div>
+        <div id="ldf_name"></div>
+        <svg id="code128"></svg>
+
+    </div>
+{% endblock %}

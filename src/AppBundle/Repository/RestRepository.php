@@ -16,8 +16,8 @@ class RestRepository extends EntityRepository
 {
     public function findByFilter($ldf, $hangar)
     {
-        var_dump($ldf);
-        var_dump($hangar);
+        //var_dump($ldf);
+        //var_dump($hangar);
         $em = $this->getEntityManager();
 
         $qb = $em->createQueryBuilder();

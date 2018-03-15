@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 /**
  * Rest
  */
-class Rest
+class Rest implements \JsonSerializable
 {
     /**
      * @var int
@@ -154,6 +154,10 @@ class Rest
         $this->status = $status;
     }
 
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 
 }
 
