@@ -26,7 +26,7 @@
                 <td>{{ rest.status.name }}</td>
                 <td>{{ rest.hangar.name }}</td>
                 <td>
-                    <a href="#" onclick="getData({{ rest.id }},'{{ path('ajaxrequest') }}')">print</a>
+                    <a href="#" onclick="getData({'id': {{ rest.id }}},'{{ path('ajaxrequest') }}')">print</a>
                 </td>
             </tr>
         {% endfor %}

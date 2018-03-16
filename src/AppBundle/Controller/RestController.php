@@ -52,20 +52,23 @@ class RestController extends Controller
      */
     public function ajaxRequest(Request $request)
     {
-        //echo 'asdasd';
-        //var_dump($request);
-        //die();
+       $session = $this->get('session');
+
         if ($request->request->get('id')) {
             //var_dump($request->getContent());
             $rest = $this->getDoctrine()->getRepository(Rest::class)
                 ->find($request->request->get('id'));
             $response = [
-                'width' =>$rest->getWidth(),
-                'height' =>$rest->getHeight(),
-                'ldf' =>$rest->getLdf()->getName(),
-                'barcode' => str_pad($rest->getLdf()->getCode(),2,'0',0).str_pad($rest->getWidth(),4,'0',0).str_pad($rest->getHeight(),4,'0',0)
+                [
+                    'width' => $rest->getWidth(),
+                    'height' => $rest->getHeight(),
+                    'ldf' => $rest->getLdf()->getName(),
+                    'barcode' => str_pad($rest->getLdf()->getCode(), 2, '0', 0) . str_pad($rest->getWidth(), 4, '0', 0) . str_pad($rest->getHeight(), 4, '0', 0)
+                ]
 
             ];
+
+            $session->set('data',$response);
             return new Response(json_encode($response));
         }
 
@@ -78,7 +81,8 @@ class RestController extends Controller
      * @return Response
      *
      */
-    public function restTemplate(){
+    public function restTemplate()
+    {
         return $this->render('default/resttemplate.html.twig');
     }
 }

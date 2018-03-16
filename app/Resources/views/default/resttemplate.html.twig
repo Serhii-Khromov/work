@@ -3,13 +3,32 @@
     <link rel="stylesheet" href="{{ asset('css/printstyle.css') }}"/>
 {% endblock %}
 {% block body %}
-    <div class="container-fluid" id="print-content">
 
-        <div class="row" id="size" >
-            <div class="num" id="width"></div><div class="num"> x </div> <div class="num" id="height"></div>
+    {% for rest in app.session.get('data') %}
+        <div class="container-fluid" id="print-content">
+
+            <div class="row" id="size">
+                <div class="num" id="width">{{ rest.width }}</div>
+                <div class="num"> x</div>
+                <div class="num" id="height">{{ rest.height }}</div>
+            </div>
+            <div id="ldf_name">{{ rest.ldf }}</div>
+            <svg id="{{ loop.index0 }}" data="{{ rest.barcode }}"></svg>
         </div>
-        <div id="ldf_name"></div>
-        <svg id="code128"></svg>
+      {#  {% if loop.last != true %}
+            <br style="page-break-after: auto">
+        {% endif %} #}
+    {% endfor %}
 
-    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/JsBarcode.all.min.js') }}"></script>
+    <script>
+        $('svg').each(function (index) {
+            // console.log(element)
+            var element = $('#' + index);
+            element.JsBarcode(element.attr('data'), {height: 40});
+        })
+    </script>
 {% endblock %}
