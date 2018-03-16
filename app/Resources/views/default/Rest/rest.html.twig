@@ -20,7 +20,12 @@
     </form>
     <table border="1">
         {% for rest in rest_list %}
-            <tr>
+            {% if rest.status.id != 2 %}
+                {% set color  = 'red' %}
+            {% else %}
+                    {% set color = 'black' %}
+            {% endif %}
+            <tr style="color: {{ color }}">
                 <td>{{ rest.width }} x {{ rest.height }}</td>
                 <td>{{ rest.ldf.name }}</td>
                 <td>{{ rest.status.name }}</td>
@@ -34,9 +39,9 @@
     </table>
 
 {% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/jquery-barcode.js') }}"></script>
-    <script src="{{ asset('js/printrest.js') }}"></script>
-    <script src="{{ asset('js/JsBarcode.all.min.js') }}"></script>
-{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/jquery-barcode.js') }}"></script>
+        <script src="{{ asset('js/printrest.js') }}"></script>
+        <script src="{{ asset('js/JsBarcode.all.min.js') }}"></script>
+    {% endblock %}
