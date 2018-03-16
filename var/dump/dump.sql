@@ -70,6 +70,38 @@ INSERT INTO `ldf` VALUES (1,1,'0381_16K','ДСП 16 мм \"бук\" (KRONOUKRAIN
 UNLOCK TABLES;
 
 --
+-- Table structure for table `project`
+--
+
+DROP TABLE IF EXISTS `project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `name` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `has_rest` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_2FB3D0EE5E237E06` (`name`),
+  KEY `IDX_2FB3D0EE3D8E604F` (`parent`),
+  KEY `IDX_2FB3D0EE6BF700BD` (`status_id`),
+  CONSTRAINT `FK_2FB3D0EE3D8E604F` FOREIGN KEY (`parent`) REFERENCES `project` (`id`),
+  CONSTRAINT `FK_2FB3D0EE6BF700BD` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project`
+--
+
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,NULL,6,'093',0),(2,1,6,'093.BU',1),(3,1,6,'093.CV',1),(4,1,6,'093.ST',1),(5,NULL,6,'094',0),(6,NULL,6,'095',0),(7,5,6,'094.BU',1),(8,5,6,'094.ST',0),(9,5,6,'094.CV',0),(10,6,6,'095.ST',0),(11,6,6,'095.DP',0),(12,NULL,6,'30519',1);
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `rest`
 --
 
@@ -116,7 +148,7 @@ CREATE TABLE `status` (
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_7B00651C5E237E06` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +157,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (5,'deleted'),(4,'in process'),(3,'в крое'),(1,'заблокирован'),(2,'свободный');
+INSERT INTO `status` VALUES (5,'deleted'),(4,'in process'),(3,'в крое'),(6,'в работе'),(1,'заблокирован'),(2,'свободный');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -138,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 15:55:55
+-- Dump completed on 2018-03-16 16:08:34

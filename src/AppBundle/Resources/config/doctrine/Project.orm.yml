@@ -1,0 +1,29 @@
+AppBundle\Entity\Project:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ProjectRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '6'
+            unique: true
+        hasRest:
+            type: boolean
+    manyToOne:
+        parent:
+            targetEntity: AppBundle\Entity\Project
+            joinColumn:
+                name: parent
+                referencedColumnName: id
+        status:
+                    targetEntity: AppBundle\Entity\Status
+                    joinColumn:
+                        name: status_id
+                        referencedColumnName: id
+    lifecycleCallbacks: {  }
