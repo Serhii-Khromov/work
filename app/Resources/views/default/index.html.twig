@@ -3,42 +3,9 @@
 
 {% block body %}
     {% include 'navbar.html.twig' %}
-    <form method="post" action="" id="formMain" onsubmit="return false">
-        <div class="form-group">
-            <input class="form-control" autofocus id="barcode" type="text" name="barcode" onchange="getAjax()"/>
-            <select id="hangar" name="hangar">
-                {% for hangar in hangar_list %}
-                    <option value="{{ hangar.id }}">{{ hangar.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </form>
-
-    <div id="response" class="pre-scrollable" style="font-size: 55%; height: 140px; white-space: nowrap "></div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        function getAjax() {
-            // alert('ok');
-            var sel = $("select#hangar").val();
-           // alert(sel);
-            $.ajax({
-                url: '{{ path('ajax') }}',
-                type: 'POST',
-                data: $('#formMain').serialize(),
-                success: function (response) {
-                    //alert(sel);
-                    jQuery('#formMain')[0].reset();
-
-                    $("#hangar option[value = "+ sel +"]").attr("selected", "selected");
-
-                    $('#response').prepend(response);
-                }
-            });
-        }
-    </script>
-
 {% endblock %}
 
 

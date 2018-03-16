@@ -20,6 +20,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RestController extends Controller
 {
+
+    /**
+     * @Route("/restscan", name="restscan")
+     */
+    public function restScan(Request $request)
+    {
+        $hangar = $this->getDoctrine()->getRepository(Hangar::class)->findAll();
+
+        return $this->render('default/Rest/restscan.html.twig',['hangar_list'=>$hangar]);
+    }
+
+
     /**
      * @Route("/rest",name="rest")
      */
@@ -41,7 +53,7 @@ class RestController extends Controller
             $hangar = $request->get('hangar');
             $rest_list = $em->getRepository(Rest::class)->findByFilter($ldf, $hangar);
         }
-        return $this->render('default/rest.html.twig', ['rest_list' => $rest_list, 'ldf_list' => $ldf_list, 'hangar_list' => $hangar_list]);
+        return $this->render('default/Rest/rest.html.twig', ['rest_list' => $rest_list, 'ldf_list' => $ldf_list, 'hangar_list' => $hangar_list]);
     }
 
     /**
@@ -52,7 +64,8 @@ class RestController extends Controller
      */
     public function ajaxRequest(Request $request)
     {
-       $session = $this->get('session');
+
+        $session = $this->get('session');
 
         if ($request->request->get('id')) {
             //var_dump($request->getContent());
@@ -67,9 +80,37 @@ class RestController extends Controller
                 ]
 
             ];
-
             $session->set('data',$response);
             return new Response(json_encode($response));
+        }
+        return new Response('error');
+    }
+
+    /**
+     * @Route("/ajax",name="ajax")
+     * @param Request $request
+     * @return Response
+     */
+    public function ajax(Request $request)
+    {
+        if ($request->request->get('barcode')) {
+            //var_dump($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $hangar = $em->getRepository(Hangar::class)->find($request->request->get('hangar'));
+            $status = $em->getRepository(Status::class)->find(2);
+            $rest = new Rest();
+            $ldf = $em->getRepository(LDF::class)
+                ->findOneBy(['code' => substr($request->request->get('barcode'), 0, 2)]);
+            $rest->setLdf($ldf);
+            $rest->setHangar($hangar);
+            $rest->setStatus($status);
+            $rest->setCreated(new \DateTime());
+            $rest->setWidth(substr($request->request->get('barcode'), 2, 4));
+            $rest->setHeight(substr($request->request->get('barcode'), 6));
+
+            $em->persist($rest);
+            $em->flush();
+            return new Response($ldf->getName() . ' - ' . substr($request->request->get('barcode'), 2, 4) . ' x ' . substr($request->request->get('barcode'), 6) . nl2br(PHP_EOL));
         }
 
         return new Response('error');
@@ -83,6 +124,6 @@ class RestController extends Controller
      */
     public function restTemplate()
     {
-        return $this->render('default/resttemplate.html.twig');
+        return $this->render('default/Rest/resttemplate.html.twig');
     }
 }
