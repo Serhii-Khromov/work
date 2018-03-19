@@ -34,4 +34,9 @@ AppBundle\Entity\Rest:
             joinColumn:
                 name: status_id
                 referencedColumnName: id
+        project:
+            targetEntity: AppBundle\Entity\Project
+            joinColunm:
+                name: project_id
+                referencedColumnName: id
     lifecycleCallbacks: {  }

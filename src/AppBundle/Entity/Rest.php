@@ -43,6 +43,12 @@ class Rest implements \JsonSerializable
     private $status;
 
     /**
+     * @var Project
+     */
+    private $project;
+
+
+    /**
      * @return int
      */
     public function getId()
@@ -154,10 +160,30 @@ class Rest implements \JsonSerializable
         $this->status = $status;
     }
 
+    /**
+     * @return Project
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function setProject($project)
+    {
+        $this->project = $project;
+    }
+
+
+
+
     public function jsonSerialize()
     {
         return get_object_vars($this);
     }
+
 
 }
 

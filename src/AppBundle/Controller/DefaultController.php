@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Hangar;
 use AppBundle\Entity\LDF;
+use AppBundle\Entity\Project;
 use AppBundle\Entity\Rest;
 use AppBundle\Entity\Status;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,7 +20,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig');
+        $project = $this->getDoctrine()->getRepository(Project::class)->findAll();
+        return $this->render('default/index.html.twig',['project_list' => $project]);
     }
 
 

@@ -3,6 +3,29 @@
 
 {% block body %}
     {% include 'navbar.html.twig' %}
+
+    <ul class="list-group">
+        {% for project in project_list %}
+            {% if project.parent == null %}
+                <li class="list-group-item">
+                    <a data-toggle="collapse" href="#{{ project.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+
+                        {{ project.name }}
+                    </a>
+                </li>
+                <div class="collapse" id="{{ project.id }}">
+                    <ul>
+                    {% for child in project_list %}
+
+                        {% if child.parent !=null and child.parent.id == project.id %}
+                            <li>  <a href="#">{{ child.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </ul>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
