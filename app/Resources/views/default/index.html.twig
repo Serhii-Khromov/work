@@ -5,30 +5,56 @@
     {% include 'navbar.html.twig' %}
 
     <ul class="list-group">
-        {% for project in project_list %}
-            {% if project.parent == null %}
-                <li class="list-group-item">
-                    <a data-toggle="collapse" href="#{{ project.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
-
-                        {{ project.name }}
-                    </a>
-                </li>
-                <div class="collapse" id="{{ project.id }}">
+        {% for project in project_list if not project.parent %}
+            <li class="list-group-item">
+                <a data-toggle="collapse" href="#{{ project.id }}" role="button" aria-expanded="false"
+                   aria-controls="collapseExample">
+                    {{ project.name }}
+                </a>
+                {% if project.hasRest %}
+                    <a href=""
+                       onclick="getData({'id': {{ project.id }},'ldf':'all'},'{{ path('ajaxproject') }}')">print</a>
+                {% endif %}
+            </li>
+            {% if project.hasRest %}
+                <div id="{{ project.id }}" class="collapse">
                     <ul>
-                    {% for child in project_list %}
-
-                        {% if child.parent !=null and child.parent.id == project.id %}
-                            <li>  <a href="#">{{ child.name }}</a></li>
-                        {% endif %}
-                    {% endfor %}
+                        {% for ldf in project.ldf %}
+                            <li><a href=""
+                                   onclick="getData({'id': {{ project.id }},'ldf':{% if loop.length == 1 %}'all'{% else %}{{ ldf.id }}{% endif %}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             {% endif %}
+            <div class="collapse" id="{{ project.id }}">
+                <ul>
+                    {% for child in project_list if child.parent and child.parent.id == project.id and child.hasRest %}
+
+                    <li><a data-toggle="collapse" href="#{{ child.id }}"
+                           role="button" aria-expanded="false" aria-controls="collapseExample">{{ child.name }}</a>
+                        <a href="" onclick="getData({'id': {{ child.id }},'ldf':'all'},'{{ path('ajaxproject') }}')">print</a>
+                        <div id="{{ child.id }}" class="collapse">
+                            <ul>
+                                {% for ldf in child.ldf %}
+
+                                    <li><a href=""
+                                           onclick="getData({'id': {{ child.id }}, 'ldf':{% if loop.length == 1 %}'all'{% else %}{{ ldf.id }}{% endif %}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endfor %}
+                </ul>
+            </div>
+
         {% endfor %}
     </ul>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/printrest.js') }}"></script>
+    <script src="{{ asset('js/JsBarcode.all.min.js') }}"></script>
 {% endblock %}
 
 

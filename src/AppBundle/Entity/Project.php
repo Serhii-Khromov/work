@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 /**
  * Project
  */
+
+use AppBundle\Repository\RestRepository;
 class Project
 {
     /**
@@ -22,6 +24,8 @@ class Project
     private $status;
 
     private $hasRest;
+
+    private $ldf;
     /**
      * @return int
      */
@@ -100,6 +104,22 @@ class Project
     public function setHasRest($hasRest)
     {
         $this->hasRest = $hasRest;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLdf()
+    {
+        return $this->ldf;
+    }
+
+    /**
+     * @param mixed $ldf
+     */
+    public function setLdf($ldf)
+    {
+        $this->ldf = $ldf;
     }
 
 

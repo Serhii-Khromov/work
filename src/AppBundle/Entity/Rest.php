@@ -165,6 +165,7 @@ class Rest implements \JsonSerializable
      */
     public function getProject()
     {
+       // var_dump($this->project);
         return $this->project;
     }
 

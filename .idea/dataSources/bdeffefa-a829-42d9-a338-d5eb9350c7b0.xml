@@ -177,59 +177,72 @@
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="47" parent="10" name="IDX_FD1421D0250B0BF2">
+    <column id="47" parent="10" name="project_id">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="48" parent="10" name="IDX_FD1421D0250B0BF2">
       <ColNames>ldf_id</ColNames>
     </index>
-    <index id="48" parent="10" name="IDX_FD1421D02FEFB5A5">
+    <index id="49" parent="10" name="IDX_FD1421D02FEFB5A5">
       <ColNames>hangar_id</ColNames>
     </index>
-    <index id="49" parent="10" name="IDX_FD1421D06BF700BD">
+    <index id="50" parent="10" name="IDX_FD1421D06BF700BD">
       <ColNames>status_id</ColNames>
     </index>
-    <key id="50" parent="10" name="PRIMARY">
+    <index id="51" parent="10" name="IDX_FD1421D0166D1F9C">
+      <ColNames>project_id</ColNames>
+    </index>
+    <key id="52" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="51" parent="10" name="FK_FD1421D0250B0BF2">
+    <foreign-key id="53" parent="10" name="FK_FD1421D0250B0BF2">
       <ColNames>ldf_id</ColNames>
       <RefSchemaName>work</RefSchemaName>
       <RefTableName>ldf</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="52" parent="10" name="FK_FD1421D02FEFB5A5">
+    <foreign-key id="54" parent="10" name="FK_FD1421D02FEFB5A5">
       <ColNames>hangar_id</ColNames>
       <RefSchemaName>work</RefSchemaName>
       <RefTableName>hangar</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="53" parent="10" name="FK_FD1421D06BF700BD">
+    <foreign-key id="55" parent="10" name="FK_FD1421D06BF700BD">
       <ColNames>status_id</ColNames>
       <RefSchemaName>work</RefSchemaName>
       <RefTableName>status</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="54" parent="11" name="id">
+    <foreign-key id="56" parent="10" name="FK_FD1421D0166D1F9C">
+      <ColNames>project_id</ColNames>
+      <RefSchemaName>work</RefSchemaName>
+      <RefTableName>project</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="57" parent="11" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="55" parent="11" name="name">
+    <column id="58" parent="11" name="name">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="56" parent="11" name="UNIQ_7B00651C5E237E06">
+    <index id="59" parent="11" name="UNIQ_7B00651C5E237E06">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="57" parent="11" name="PRIMARY">
+    <key id="60" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="58" parent="11" name="UNIQ_7B00651C5E237E06">
+    <key id="61" parent="11" name="UNIQ_7B00651C5E237E06">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>UNIQ_7B00651C5E237E06</UnderlyingIndexName>
     </key>

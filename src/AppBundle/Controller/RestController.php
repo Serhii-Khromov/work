@@ -11,7 +11,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Hangar;
 use AppBundle\Entity\LDF;
+use AppBundle\Entity\Project;
 use AppBundle\Entity\Rest;
+use AppBundle\Entity\Status;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +30,7 @@ class RestController extends Controller
     {
         $hangar = $this->getDoctrine()->getRepository(Hangar::class)->findAll();
 
-        return $this->render('default/Rest/restscan.html.twig',['hangar_list'=>$hangar]);
+        return $this->render('default/Rest/restscan.html.twig', ['hangar_list' => $hangar]);
     }
 
 
@@ -68,7 +70,6 @@ class RestController extends Controller
         $session = $this->get('session');
 
         if ($request->request->get('id')) {
-            //var_dump($request->getContent());
             $rest = $this->getDoctrine()->getRepository(Rest::class)
                 ->find($request->request->get('id'));
             $response = [
@@ -80,7 +81,7 @@ class RestController extends Controller
                 ]
 
             ];
-            $session->set('data',$response);
+            $session->set('data', $response);
             return new Response(json_encode($response));
         }
         return new Response('error');
@@ -126,4 +127,59 @@ class RestController extends Controller
     {
         return $this->render('default/Rest/resttemplate.html.twig');
     }
+
+    /**
+     * @Route("/ajaxproject",name="ajaxproject")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function ajaxProject(Request $request)
+    {
+
+        $session = $this->get('session');
+        $em = $this->getDoctrine()->getManager();
+        if ($request->request->get('id')) {
+            $project = $em->getRepository(Project::class)->find($request->request->get('id'));
+            $status = $em->getRepository(Status::class)->find(3);
+
+            if ($request->request->get('ldf') != 'all') {
+                $ldf = $em->getRepository(LDF::class)->find($request->request->get('ldf'));
+                $rest = $em->getRepository(Rest::class)
+                    ->findBy([
+                        'project' => $project,
+                        'ldf' => $ldf,
+                        'status' => $status
+                    ]);
+            } else {
+                $rest = $em->getRepository(Rest::class)
+                    ->findBy([
+                        'project' => $project,
+                        'status' => $status
+                    ]);
+                $project->setHasRest(false);
+                $em ->persist($project);
+            }
+
+
+            foreach ($rest as $value) {
+                $value->setStatus($em->getRepository(Status::class)->find(2));
+                $em->persist($value);
+                $response[] =
+                    [
+                        'width' => $value->getWidth(),
+                        'height' => $value->getHeight(),
+                        'ldf' => $value->getLdf()->getName(),
+                        'barcode' => str_pad($value->getLdf()->getCode(), 2, '0', 0) . str_pad($value->getWidth(), 4, '0', 0) . str_pad($value->getHeight(), 4, '0', 0)
+                    ];
+            }
+
+            $em->flush();
+            //  var_dump($response);
+            // die();
+            $session->set('data', $response);
+            return new Response(json_encode($response));
+        }
+        //die();
+        return new Response('error');    }
 }

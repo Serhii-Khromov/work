@@ -24,7 +24,7 @@ class RestRepository extends EntityRepository
 
         $qb->select('r')
             ->from('AppBundle:Rest', 'r');
-       // var_dump($qb);
+        // var_dump($qb);
         $criteria = Criteria::create();
 
         if ($ldf == 'all') {
@@ -39,6 +39,27 @@ class RestRepository extends EntityRepository
         }
 
         $qb->addCriteria($criteria);
+
+        $rest = $qb->getQuery()->getResult();
+
+        return $rest;
+
+    }
+
+    public function findLdfByProject($project)
+    {
+
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('ldf.name, ldf.id ')
+            ->from('AppBundle:Rest', 'r')
+            ->leftJoin('r.ldf', 'ldf')
+            ->where('r.project = :project')
+            ->andWhere('r.status = 3')
+            ->setParameter('project',$project)
+            ->distinct();
 
         $rest = $qb->getQuery()->getResult();
 
