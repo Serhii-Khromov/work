@@ -21,7 +21,7 @@
                     <ul>
                         {% for ldf in project.ldf %}
                             <li><a href=""
-                                   onclick="getData({'id': {{ project.id }},'ldf':{% if loop.length == 1 %}'all'{% else %}{{ ldf.id }}{% endif %}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
+                                   onclick="getData({'id': {{ project.id }},'ldf':{{ ldf.id }}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -39,7 +39,7 @@
                                 {% for ldf in child.ldf %}
 
                                     <li><a href=""
-                                           onclick="getData({'id': {{ child.id }}, 'ldf':{% if loop.length == 1 %}'all'{% else %}{{ ldf.id }}{% endif %}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
+                                           onclick="getData({'id': {{ child.id }}, 'ldf': {{ ldf.id }}},'{{ path('ajaxproject') }}')">{{ ldf.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

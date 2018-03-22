@@ -155,16 +155,15 @@ class RestController extends Controller
                 $rest = $em->getRepository(Rest::class)
                     ->findBy([
                         'project' => $project,
-                        'status' => $status
-                    ]);
-                $project->setHasRest(false);
-                $em ->persist($project);
+                        'status' => $status],[
+                        'ldf'=>'ASC'
+                   ]);
             }
 
 
             foreach ($rest as $value) {
-                $value->setStatus($em->getRepository(Status::class)->find(2));
-                $em->persist($value);
+              //  $value->setStatus($em->getRepository(Status::class)->find(2));
+               // $em->persist($value);
                 $response[] =
                     [
                         'width' => $value->getWidth(),
@@ -174,12 +173,13 @@ class RestController extends Controller
                     ];
             }
 
-            $em->flush();
+          //  $em->flush();
             //  var_dump($response);
             // die();
             $session->set('data', $response);
             return new Response(json_encode($response));
         }
         //die();
-        return new Response('error');    }
+        return new Response('error');
+    }
 }

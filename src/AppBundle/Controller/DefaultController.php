@@ -23,9 +23,9 @@ class DefaultController extends Controller
             if ($value->getHasRest()) {
                 $project[$key]->setLdf($this->getDoctrine()->getRepository(Rest::class)->findLdfByProject($value->getId()));
             }
-    }
+        }
 
-return $this->render('default/index.html.twig', ['project_list' => $project,]);
-}
+        return $this->render('default/index.html.twig', ['project_list' => $project,]);
+    }
 
 }
