@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include 'navbar.html.twig' %}
+    <form method="post" action="" id="formMain" onsubmit="return false">
+        <input type="number" name="width" id="width" autofocus placeholder="ширина"> x <input type="number"
+                                                                                              name="height" id="height"
+                                                                                              placeholder="высота">
+        <div>
+            <select id="ldf" name="ldf">
+                {% for ldf in ldf_list %}
+                    <option value="{{ ldf.id }}">{{ ldf.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button onclick="getAjax()">print</button>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/printrest.js') }}"></script>
+    <script>
+        function getAjax() {
+            var sel = $("select#ldf").val();
+            console.log(sel);
+            $.ajax({
+                url: '{{ path('printrest') }}',
+                type: 'POST',
+                data: $('#formMain').serialize(),
+                success: function (response) {
+                    console.log(response);
+                    jQuery('#formMain')[0].reset();
+                    $("#ldf option[value = " + sel + "]").attr("selected", "selected");
+                    printRest();
+                }
+            });
+        }
+    </script>
+
+{% endblock %}

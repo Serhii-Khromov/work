@@ -20,6 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
+/**
+ * Class RestController
+ * @package AppBundle\Controller
+ */
 class RestController extends Controller
 {
 
@@ -155,15 +159,15 @@ class RestController extends Controller
                 $rest = $em->getRepository(Rest::class)
                     ->findBy([
                         'project' => $project,
-                        'status' => $status],[
-                        'ldf'=>'ASC'
-                   ]);
+                        'status' => $status], [
+                        'ldf' => 'ASC'
+                    ]);
             }
 
 
             foreach ($rest as $value) {
-              //  $value->setStatus($em->getRepository(Status::class)->find(2));
-               // $em->persist($value);
+                //  $value->setStatus($em->getRepository(Status::class)->find(2));
+                // $em->persist($value);
                 $response[] =
                     [
                         'width' => $value->getWidth(),
@@ -173,7 +177,7 @@ class RestController extends Controller
                     ];
             }
 
-          //  $em->flush();
+            //  $em->flush();
             //  var_dump($response);
             // die();
             $session->set('data', $response);
@@ -181,5 +185,28 @@ class RestController extends Controller
         }
         //die();
         return new Response('error');
+    }
+
+    /**
+     * @Route("/printrest",name="printrest")
+     *
+     */
+    public function printRest(Request $request)
+    {
+        $ldf = $this->getDoctrine()->getRepository(LDF::class)->findAll();
+        if ($request->request->get('width') > 0) {
+            $session = $this->get('session');
+            $ldf_print = $this->getDoctrine()->getRepository(LDF::class)->find($request->request->get('ldf'));
+            $response[] =
+                [
+                    'width' => $request->request->get('width'),
+                    'height' => $request->request->get('height'),
+                    'ldf' => $ldf_print->getName(),
+                    'barcode' => str_pad($request->request->get('ldf'), 2, '0', 0) . str_pad($request->request->get('width'), 4, '0', 0) . str_pad($request->request->get('height'), 4, '0', 0)
+                ];
+            $session->set('data', $response);
+            return new Response(json_encode($response));
+        }
+        return $this->render('default/Rest/restprint.html.twig', ['ldf_list' => $ldf]);
     }
 }
